@@ -1,10 +1,6 @@
-'use strict';
-
 document.addEventListener('DOMContentLoaded', function() {
   /**
    * PRELOAD
-   * 
-   * loading will be end after document is loaded
    */
   const preloader = document.querySelector("[data-preaload]");
 
@@ -16,15 +12,15 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   /**
-   * add event listener on multiple elements
+   * Function to add event listener on multiple elements
    */
   const addEventOnElements = function (elements, eventType, callback) {
-    if (elements) {
+    if (elements && elements.length > 0) {
       for (let i = 0, len = elements.length; i < len; i++) {
-        elements[i].addEventListener(eventType, callback);
+        elements[i]?.addEventListener(eventType, callback);
       }
     }
-  }
+  };
 
   /**
    * NAVBAR
@@ -41,12 +37,12 @@ document.addEventListener('DOMContentLoaded', function() {
       overlay.classList.toggle("active");
     }
     document.body.classList.toggle("nav-active");
-  }
+  };
 
   addEventOnElements(navTogglers, "click", toggleNavbar);
 
   /**
-   * HEADER & BACK TOP BTN
+   * HEADER & BACK TOP BUTTON
    */
   const header = document.querySelector("[data-header]");
   const backTopBtn = document.querySelector("[data-back-top-btn]");
@@ -55,18 +51,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const hideHeader = function () {
     const isScrollBottom = lastScrollPos < window.scrollY;
-    if (isScrollBottom) {
-      if (header) {
+    if (header) {
+      if (isScrollBottom) {
         header.classList.add("hide");
-      }
-    } else {
-      if (header) {
+      } else {
         header.classList.remove("hide");
       }
     }
-
     lastScrollPos = window.scrollY;
-  }
+  };
 
   window.addEventListener("scroll", function () {
     if (window.scrollY >= 50) {
@@ -106,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
       heroSliderItems[currentSlidePos].classList.add("active");
     }
     lastActiveSliderItem = heroSliderItems[currentSlidePos];
-  }
+  };
 
   const slideNext = function () {
     if (currentSlidePos >= heroSliderItems.length - 1) {
@@ -114,13 +107,8 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
       currentSlidePos++;
     }
-
     updateSliderPos();
-  }
-
-  if (heroSliderNextBtn) {
-    heroSliderNextBtn.addEventListener("click", slideNext);
-  }
+  };
 
   const slidePrev = function () {
     if (currentSlidePos <= 0) {
@@ -128,8 +116,11 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
       currentSlidePos--;
     }
-
     updateSliderPos();
+  };
+
+  if (heroSliderNextBtn) {
+    heroSliderNextBtn.addEventListener("click", slideNext);
   }
 
   if (heroSliderPrevBtn) {
@@ -137,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   /**
-   * auto slide
+   * Auto slide
    */
   let autoSlideInterval;
 
@@ -145,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
     autoSlideInterval = setInterval(function () {
       slideNext();
     }, 7000);
-  }
+  };
 
   addEventOnElements([heroSliderNextBtn, heroSliderPrevBtn], "mouseover", function () {
     clearInterval(autoSlideInterval);
@@ -166,7 +157,6 @@ document.addEventListener('DOMContentLoaded', function() {
     x = (event.clientX / window.innerWidth * 10) - 5;
     y = (event.clientY / window.innerHeight * 10) - 5;
 
-    // reverse the number eg. 20 -> -20, -5 -> 5
     x = x - (x * 2);
     y = y - (y * 2);
 
